@@ -16,11 +16,11 @@ def User_detail(request, pk):
 @require_http_methods(["GET", "POST"])
 def User_New(request):
     if request.method == "POST":
-        formUs = UsuarioForm(request.POST)
+        form = UsuarioForm(request.POST)
         formCo = CorreoForm(request.POST)
         formtel= TelefonoForm(request.POST)
-        if formUs.is_valid() and formCo.is_valid() and formtel.is_valid():
-            us = formUs.save()
+        if form.is_valid() and formCo.is_valid() and formtel.is_valid():
+            us = form.save()
             
             co = formCo.save(commit=False)
             co.usuario = us
@@ -29,12 +29,12 @@ def User_New(request):
             tel = formtel.save(commit=False)
             tel.usuario = us
             tel.save()
-            return redirect("User_detail", pk=us.pk)
+            return redirect("core:User_detail", pk=us.pk)
     else:
-        formUs = UsuarioForm()
+        form = UsuarioForm()
         formCo = CorreoForm()
         formtel= TelefonoForm()
-    return render(request, "Usuario/form.html", {"formUs": formUs, "formCo": formCo, "formtel": formtel, "mode": "create"})
+    return render(request, "Usuario/form.html", {"form": form, "formCo": formCo, "formtel": formtel, "mode": "create"})
 
 @require_http_methods(["GET","POST"])
 def User_update(request, pk):
@@ -57,21 +57,21 @@ def User_delete(request, pk):
     return render(request, "Usuario/confirm_delete.html", {"Usuario": obj})
 
 # ---------- Correo ----------
+@require_http_methods(["GET", "POST"])
 def Correo_new(request, user_pk):
     usuario = get_object_or_404(Usuario, pk=user_pk)
-
     if request.method == "POST":
         form = CorreoForm(request.POST)
         if form.is_valid():
             correo = form.save(commit=False)
             correo.usuario = usuario
             correo.save()
-            return redirect("core:User_detail", pk=user_pk)
+            return redirect("core:User_detail", pk=usuario.pk)
     else:
         form = CorreoForm()
+    return render(request, "Correo/form.html", {"form": form,"usuario": usuario,"mode": "create",})
 
-    return render(request, "Correo/form.html", {"form": form, "usuario": usuario})
-
+@require_http_methods(["GET", "POST"])
 def Correo_update(request, pk):
     correo = get_object_or_404(Correo, pk=pk)
 
@@ -83,56 +83,43 @@ def Correo_update(request, pk):
     else:
         form = CorreoForm(instance=correo)
 
-    return render(request, "Correo/form.html", {"form": form, "correo": correo})
+    return render(request, "Correo/form.html", {"form": form,"correo": correo,"mode": "edit",})
 
+@require_http_methods(["GET", "POST"])
 def Correo_delete(request, pk):
     correo = get_object_or_404(Correo, pk=pk)
-
     if request.method == "POST":
         usuario = correo.usuario.pk
         correo.delete()
         return redirect("core:User_detail", pk=usuario)
-
     return render(request, "Correo/confirm_delete.html", {"correo": correo})
 
 # ---------- Telefono ----------
 @require_http_methods(["GET", "POST"])
 def Telefono_new(request, user_pk):
     usuario = get_object_or_404(Usuario, pk=user_pk)
-
     if request.method == "POST":
         form = TelefonoForm(request.POST)
         if form.is_valid():
             tel = form.save(commit=False)
             tel.usuario = usuario
             tel.save()
-            return redirect("core:User_detail", pk=user_pk)
+            return redirect("core:User_detail", pk=usuario.pk)
     else:
         form = TelefonoForm()
-
-    return render(request, "Telefono/form.html", {
-        "form": form,
-        "usuario": usuario,
-        "mode": "create"
-})
+    return render(request, "Telefono/form.html", {"form": form,"usuario": usuario,"mode": "create"})
 
 @require_http_methods(["GET", "POST"])
 def Telefono_update(request, pk):
-    tel = get_object_or_404(Telefono, pk=pk)
-
+    telefono = get_object_or_404(Telefono, pk=pk)
     if request.method == "POST":
-        form = TelefonoForm(request.POST, instance=tel)
+        form = TelefonoForm(request.POST, instance=telefono)
         if form.is_valid():
             form.save()
-            return redirect("core:User_detail", pk=tel.usuario.pk)
+            return redirect("core:User_detail", pk=telefono.usuario.pk)
     else:
-        form = TelefonoForm(instance=tel)
-
-    return render(request, "Telefono/form.html", {
-        "form": form,
-        "telefono": tel,
-        "mode": "edit"
-    })
+        form = TelefonoForm(instance=telefono)
+    return render(request, "Telefono/form.html", {"form": form,"telefono": telefono,"mode": "edit"})
 
 @require_http_methods(["GET", "POST"])
 def Telefono_delete(request, pk):

@@ -13,13 +13,13 @@ urlpatterns = [
 
     # ---------- Correo ----------
     path("Correo/new/<int:user_pk>/", views.Correo_new, name="Correo_new"),
-    path("Correo/<str:pk>/edit/", views.Correo_update, name="Correo_update"),
-    path("Correo/<str:pk>/delete/", views.Correo_delete, name="Correo_delete"),
+    path("Correo/<int:pk>/edit/", views.Correo_update, name="Correo_update"),
+    path("Correo/<int:pk>/delete/", views.Correo_delete, name="Correo_delete"),
 
     # ---------- telefono ----------
     path("Telefono/new/<int:user_pk>/", views.Telefono_new, name="Telefono_new"),
-    path("Telefono/<str:pk>/edit/", views.Telefono_update, name="Telefono_update"),
-    path("Telefono/<str:pk>/delete/", views.Telefono_delete, name="Telefono_delete"),
+    path("Telefono/<int:pk>/edit/", views.Telefono_update, name="Telefono_update"),
+    path("Telefono/<int:pk>/delete/", views.Telefono_delete, name="Telefono_delete"),
 
 
 ]

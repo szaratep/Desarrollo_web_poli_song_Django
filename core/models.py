@@ -15,24 +15,24 @@ class Usuario(models.Model):
 
 
 class Telefono(models.Model):
-    usuario = models.ForeignKey(
-        Usuario,
-        on_delete=models.CASCADE,
-        related_name="telefonos"
-    )
-    telefono = models.CharField(max_length=20, primary_key=True)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="telefonos")
+    telefono = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ["telefono"]
+        unique_together = ("usuario", "telefono")
 
     def __str__(self):
         return self.telefono
 
 
 class Correo(models.Model):
-    usuario = models.ForeignKey(
-        Usuario,
-        on_delete=models.CASCADE,
-        related_name="correos"
-    )
-    correo = models.CharField(max_length=120, primary_key=True)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="correos")
+    correo = models.CharField(max_length=120)
+
+    class Meta:
+        ordering = ["correo"]
+        unique_together = ("usuario", "correo")
 
     def __str__(self):
         return self.correo
@@ -68,22 +68,27 @@ class Proveedor(models.Model):
 
 
 class TelefonoProveedor(models.Model):
-    proveedor = models.ForeignKey(
-        Proveedor,
-        on_delete=models.CASCADE,
-        related_name="telefonos"
-    )
-    telefono = models.CharField(max_length=20, primary_key=True)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name="telefonos")
+    telefono = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ["telefono"]
+        unique_together = ("proveedor", "telefono")
+
+    def __str__(self):
+        return self.telefono
 
 
 class CorreoProveedor(models.Model):
-    proveedor = models.ForeignKey(
-        Proveedor,
-        on_delete=models.CASCADE,
-        related_name="correos"
-    )
-    correo = models.CharField(max_length=120, primary_key=True)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name="correos")
+    correo = models.CharField(max_length=120)
 
+    class Meta:
+        ordering = ["correo"]
+        unique_together = ("proveedor", "correo")
+
+    def __str__(self):
+        return self.correo
 
 # =====================
 # MODELO: DISCO MP3
@@ -100,7 +105,6 @@ class DiscoMp3(models.Model):
 
     def __str__(self):
         return self.nombre
-
 
 # =====================
 # MODELO: VINILO
@@ -123,7 +127,6 @@ class Vinilo(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.artista}"
-
 
 # =====================
 # RELACIONES M:M (VINILOS Y MP3 CON CANCIONES)

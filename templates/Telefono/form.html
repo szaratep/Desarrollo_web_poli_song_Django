@@ -12,4 +12,8 @@
   <button type="submit">Guardar</button>
 </form>
 
-<a href="{% url 'core:User_detail' pk=usuario.pk %}">Volver</a>
+{% if mode == "edit" %}
+    <a href="{% url 'core:User_detail' pk=telefono.usuario.pk %}">Volver</a>
+{% else %}
+    <a href="{% url 'core:User_detail' pk=usuario.pk %}">Volver</a>
+{% endif %}
