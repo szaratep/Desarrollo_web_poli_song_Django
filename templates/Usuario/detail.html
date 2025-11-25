@@ -1,0 +1,56 @@
+<h1>Detalle del Usuario</h1>
+
+<h2>Información del Usuario</h2>
+<p><strong>Nombre:</strong> {{ Usuario.nombre }}</p>
+<p><strong>Contraseña:</strong> {{ Usuario.contrasena }}</p>
+
+<a href="{% url 'core:User_update' pk=Usuario.pk %}">Editar Usuario</a>
+<br><br>
+
+<hr>
+
+<h2>Correos</h2>
+
+{% if Usuario.correos.all %}
+<ul>
+    {% for c in Usuario.correos.all %}
+        <li>
+            {{ c.correo }}
+            <a href="{% url 'core:Correo_update' pk=c.pk %}">Editar</a> |
+            <a href="{% url 'core:Correo_delete' pk=c.pk %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay correos registrados.</p>
+{% endif %}
+
+<a href="{% url 'core:Correo_new' user_pk=Usuario.pk %}">Agregar Correo</a>
+
+<br><br>
+
+<hr>
+
+<h2>Teléfonos</h2>
+
+{% if Usuario.telefonos.all %}
+<ul>
+    {% for t in Usuario.telefonos.all %}
+        <li>
+            {{ t.telefono }}
+            <a href="{% url 'core:Telefono_update' pk=t.pk %}">Editar</a> |
+            <a href="{% url 'core:Telefono_delete' pk=t.pk %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay teléfonos registrados.</p>
+{% endif %}
+
+<a href="{% url 'core:Telefono_new' user_pk=Usuario.pk %}">Agregar Teléfono</a>
+
+<br><br>
+
+<hr>
+
+<a href="{% url 'core:home' %}">Volver al inicio</a>

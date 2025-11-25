@@ -1,0 +1,9 @@
+<h1>Eliminar Teléfono</h1>
+<p>¿Seguro que quieres eliminar el teléfono {{ telefono.telefono }}?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Eliminar</button>
+</form>
+
+<a href="{% url 'core:User_detail' pk=telefono.usuario.pk %}">Cancelar</a>

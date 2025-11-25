@@ -1,0 +1,10 @@
+<h1>Eliminar Correo</h1>
+
+<p>¿Seguro que quieres eliminar el correo {{ correo.correo }}?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Eliminar</button>
+</form>
+
+<a href="{% url 'core:User_detail' pk=correo.usuario.pk %}">Cancelar</a>
