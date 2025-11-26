@@ -1,0 +1,12 @@
+<h1>Eliminar Teléfono</h1>
+
+<p>¿Estás seguro de que deseas eliminar el teléfono <strong>{{ telefono.telefono }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Eliminar</button>
+</form>
+
+<a class="btn btn-secondary" href="{% url 'core:Proveedor_detail' pk=telefono.proveedor.pk %}">
+    Cancelar
+</a>

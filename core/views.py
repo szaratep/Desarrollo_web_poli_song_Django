@@ -130,8 +130,132 @@ def Telefono_delete(request, pk):
         tel.delete()
         return redirect("core:User_detail", pk=user_id)
 
-    return render(request, "Telefono/confirm_delete.html", {
-        "telefono": tel
-    })
+    return render(request, "Telefono/confirm_delete.html", {"telefono": tel})
+
+# ---------- Proveedor ----------
+def Proveedor_detail(request, pk):
+    proveedor = get_object_or_404(Proveedor, pk=pk)
+    return render(request, "Proveedor/detail.html", {"proveedor": proveedor})
+
+@require_http_methods(["GET", "POST"])
+def Proveedor_new(request):
+    if request.method == "POST":
+        form = ProveedorForm(request.POST)
+        formCo = CorreoProveedorForm(request.POST)
+        formTel = TelefonoProveedorForm(request.POST)
+        if form.is_valid() and formCo.is_valid() and formTel.is_valid():
+            proveedor = form.save()
+            correo = formCo.save(commit=False)
+            correo.proveedor = proveedor
+            correo.save()
+            telefono = formTel.save(commit=False)
+            telefono.proveedor = proveedor
+            telefono.save()
+            return redirect("core:Proveedor_detail", pk=proveedor.pk)
+    else:
+        form = ProveedorForm()
+        formCo = CorreoProveedorForm()
+        formTel = TelefonoProveedorForm()
+    return render(request,"Proveedor/form.html",{"form": form,"formCo": formCo,"formTel": formTel,"mode": "create",})
+
+
+@require_http_methods(["GET", "POST"])
+def Proveedor_update(request, pk):
+    proveedor = get_object_or_404(Proveedor, pk=pk)
+    if request.method == "POST":
+        form = ProveedorForm(request.POST, instance=proveedor)
+        if form.is_valid():
+            proveedor = form.save()
+            return redirect("core:Proveedor_detail", pk=proveedor.pk)
+    else:
+        form = ProveedorForm(instance=proveedor)
+    return render(request, "Proveedor/form.html", {"form": form, "mode": "edit", "proveedor": proveedor})
+
+@require_http_methods(["GET", "POST"])
+def Proveedor_delete(request, pk):
+    proveedor = get_object_or_404(Proveedor, pk=pk)
+    if request.method == "POST":
+        proveedor.delete()
+        return redirect("core:home")
+    return render(request, "Proveedor/confirm_delete.html", {"proveedor": proveedor})
+
+# ---------- CorreoProveedor ----------
+@require_http_methods(["GET", "POST"])
+def CorreoProveedor_new(request, proveedor_pk):
+    proveedor = get_object_or_404(Proveedor, pk=proveedor_pk)
+    if request.method == "POST":
+        form = CorreoProveedorForm(request.POST)
+        if form.is_valid():
+            correo = form.save(commit=False)
+            correo.proveedor = proveedor
+            correo.save()
+            return redirect("core:Proveedor_detail", pk=proveedor.pk)
+    else:
+        form = CorreoProveedorForm()
+    return render(request, "Proveedor/Correo/form.html", {"form": form, "proveedor": proveedor, "mode": "create"},)
+
+@require_http_methods(["GET", "POST"])
+def CorreoProveedor_update(request, pk):
+    correo = get_object_or_404(CorreoProveedor, pk=pk)
+    proveedor = correo.proveedor
+    if request.method == "POST":
+        form = CorreoProveedorForm(request.POST, instance=correo)
+        if form.is_valid():
+            form.save()
+            return redirect("core:Proveedor_detail", pk=proveedor.pk)
+    else:
+        form = CorreoProveedorForm(instance=correo)
+    return render(request, "Proveedor/Correo/form.html", {"form": form, "proveedor": proveedor, "mode": "edit", "correo": correo},)
+
+@require_http_methods(["GET", "POST"])
+def CorreoProveedor_delete(request, pk):
+    correo = get_object_or_404(CorreoProveedor, pk=pk)
+    proveedor = correo.proveedor
+    if request.method == "POST":
+        correo.delete()
+        return redirect("core:Proveedor_detail", pk=proveedor.pk)
+    return render(request,"Proveedor/Correo/confirm_delete.html",{"correo": correo, "proveedor": proveedor},)
+
+# ---------- TelefonoProveedor ----------
+@require_http_methods(["GET", "POST"])
+def TelefonoProveedor_new(request, proveedor_pk):
+    proveedor = get_object_or_404(Proveedor, pk=proveedor_pk)
+    if request.method == "POST":
+        form = TelefonoProveedorForm(request.POST)
+        if form.is_valid():
+            tel = form.save(commit=False)
+            tel.proveedor = proveedor
+            tel.save()
+            return redirect("core:Proveedor_detail", pk=proveedor_pk)
+    else:
+        form = TelefonoProveedorForm()
+    return render(request, "Proveedor/Telefono/form.html", {"form": form,"proveedor": proveedor,"mode": "create"})
+
+@require_http_methods(["GET", "POST"])
+def TelefonoProveedor_update(request, pk):
+    telefono = get_object_or_404(TelefonoProveedor, pk=pk)
+    if request.method == "POST":
+        form = TelefonoProveedorForm(request.POST, instance=telefono)
+        if form.is_valid():
+            form.save()
+            return redirect("core:Proveedor_detail", pk=telefono.proveedor.pk)
+    else:
+        form = TelefonoProveedorForm(instance=telefono)
+    return render(request, "Proveedor/Telefono/form.html", {"form": form,"telefono": telefono,"mode": "edit"})
+
+@require_http_methods(["GET", "POST"])
+def TelefonoProveedor_delete(request, pk):
+    tel = get_object_or_404(TelefonoProveedor, pk=pk)
+    if request.method == "POST":
+        prov_id = tel.proveedor.pk
+        tel.delete()
+        return redirect("core:Proveedor_detail", pk=prov_id)
+    return render(request, "Proveedor/Telefono/confirm_delete.html", {"telefono": tel})
+
+
+
+
+
+
 
 

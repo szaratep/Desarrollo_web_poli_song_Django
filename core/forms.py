@@ -15,3 +15,18 @@ class TelefonoForm(forms.ModelForm):
     class Meta:
         model = Telefono
         fields = ["telefono"]
+
+class ProveedorForm(forms.ModelForm):
+    class Meta:
+        model = Proveedor
+        fields = ["nombre", "contrasena"]
+
+class CorreoProveedorForm(forms.ModelForm):
+    class Meta:
+        model = CorreoProveedor
+        fields = ["correo"]
+
+class TelefonoProveedorForm(forms.ModelForm):
+    class Meta:
+        model = TelefonoProveedor
+        fields = ["telefono"]

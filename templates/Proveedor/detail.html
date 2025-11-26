@@ -1,0 +1,56 @@
+<h1>Detalle del Proveedor</h1>
+
+<section style="margin-bottom: 30px;">
+    <h2>Información del Proveedor</h2>
+
+    <p><strong>Nombre:</strong> {{ proveedor.nombre }}</p>
+
+    <div style="margin-top: 10px;">
+        <a class="btn" href="{% url 'core:Proveedor_update' pk=proveedor.pk %}">Editar Proveedor</a>
+        <a class="btn btn-danger" href="{% url 'core:Proveedor_delete' pk=proveedor.pk %}">Eliminar Proveedor</a>
+    </div>
+</section>
+
+<hr>
+
+<h2>Correos del Proveedor</h2>
+
+{% if proveedor.correos.all %}
+<ul>
+    {% for c in proveedor.correos.all %}
+        <li>
+            {{ c.correo }}
+            <a class="btn btn-secondary" href="{% url 'core:CorreoProveedor_update' pk=c.pk %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'core:CorreoProveedor_delete' pk=c.pk %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay correos registrados.</p>
+{% endif %}
+
+<a class="btn btn-success" href="{% url 'core:CorreoProveedor_new' proveedor_pk=proveedor.pk %}">Agregar Correo</a>
+
+<hr>
+
+<h2>Teléfonos del Proveedor</h2>
+
+{% if proveedor.telefonos.all %}
+<ul>
+    {% for t in proveedor.telefonos.all %}
+        <li>
+            {{ t.telefono }}
+            <a class="btn btn-secondary" href="{% url 'core:TelefonoProveedor_update' pk=t.pk %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'core:TelefonoProveedor_delete' pk=t.pk %}">Eliminar</a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay teléfonos registrados.</p>
+{% endif %}
+
+<a class="btn btn-success" href="{% url 'core:TelefonoProveedor_new' proveedor_pk=proveedor.pk %}">Agregar Teléfono</a>
+
+<hr>
+
+<a class="btn btn-secondary" href="{% url 'core:home' %}">Volver al inicio</a>
