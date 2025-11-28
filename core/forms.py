@@ -30,3 +30,21 @@ class TelefonoProveedorForm(forms.ModelForm):
     class Meta:
         model = TelefonoProveedor
         fields = ["telefono"]
+
+class CancionForm(forms.ModelForm):
+    class Meta:
+        model = Cancion
+        fields = ['nombre', 'duracion', 'tamano']
+
+
+class ViniloForm(forms.ModelForm):
+    class Meta:
+        model = Vinilo
+        fields = ['nombre', 'artista', 'anio_salida', 'precio_unitario', 'inventario', 'proveedor']
+
+
+class ViniloCancionForm(forms.ModelForm):
+    class Meta:
+        model = ViniloCancion
+        fields = ['vinilo', 'cancion']
+

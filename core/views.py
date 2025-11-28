@@ -251,6 +251,96 @@ def TelefonoProveedor_delete(request, pk):
         tel.delete()
         return redirect("core:Proveedor_detail", pk=prov_id)
     return render(request, "Proveedor/Telefono/confirm_delete.html", {"telefono": tel})
+# ---------- Cancion ----------
+def lista_canciones(request):
+    canciones = Cancion.objects.all()
+    return render(request, 'cancion/lista.html', {'canciones': canciones})
+
+
+def crear_cancion(request):
+    if request.method == 'POST':
+        form = CancionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_canciones')
+    else:
+        form = CancionForm()
+    return render(request, 'cancion/form.html', {'form': form, 'titulo': 'Crear Canción'})
+
+
+def editar_cancion(request, id):
+    cancion = get_object_or_404(Cancion, id=id)
+    if request.method == 'POST':
+        form = CancionForm(request.POST, instance=cancion)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_canciones')
+    else:
+        form = CancionForm(instance=cancion)
+    return render(request, 'cancion/form.html', {'form': form, 'titulo': 'Editar Canción'})
+
+
+def eliminar_cancion(request, id):
+    cancion = get_object_or_404(Cancion, id=id)
+    cancion.delete()
+    return redirect('lista_canciones')
+
+# ---------- Vinilo ----------
+
+def lista_vinilos(request):
+    vinilos = Vinilo.objects.all()
+    return render(request, 'vinilo/lista.html', {'vinilos': vinilos})
+
+def crear_vinilo(request):
+    if request.method == 'POST':
+        form = ViniloForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_vinilos')
+    else:
+        form = ViniloForm()
+    return render(request, 'vinilo/form.html', {'form': form, 'titulo': 'Crear Vinilo'})
+
+def editar_vinilo(request, id):
+    vinilo = get_object_or_404(Vinilo, id=id)
+    if request.method == 'POST':
+        form = ViniloForm(request.POST, instance=vinilo)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_vinilos')
+    else:
+        form = ViniloForm(instance=vinilo)
+    return render(request, 'vinilo/form.html', {'form': form, 'titulo': 'Editar Vinilo'})
+
+def eliminar_vinilo(request, id):
+    vinilo = get_object_or_404(Vinilo, id=id)
+    vinilo.delete()
+    return redirect('lista_vinilos')
+
+# ---------- ViniloCancion ----------
+
+def lista_vinilo_cancion(request):
+    relaciones = ViniloCancion.objects.all()
+    return render(request, 'vinilo_cancion/lista.html', {'relaciones': relaciones})
+
+def crear_vinilo_cancion(request):
+    if request.method == 'POST':
+        form = ViniloCancionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_vinilo_cancion')
+    else:
+        form = ViniloCancionForm()
+    return render(request, 'vinilo_cancion/form.html', {'form': form, 'titulo': 'Agregar Canción a Vinilo'})
+
+def eliminar_vinilo_cancion(request, id):
+    relacion = get_object_or_404(ViniloCancion, id=id)
+    relacion.delete()
+    return redirect('lista_vinilo_cancion')
+
+
+
+
 
 
 

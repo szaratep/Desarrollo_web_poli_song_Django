@@ -36,4 +36,21 @@ urlpatterns = [
     path("Proveedor/Telefono/new/<int:proveedor_pk>/", views.TelefonoProveedor_new, name="TelefonoProveedor_new"),
     path("Proveedor/Telefono/<int:pk>/edit/", views.TelefonoProveedor_update, name="TelefonoProveedor_update"),
     path("Proveedor/Telefono/<int:pk>/delete/", views.TelefonoProveedor_delete, name="TelefonoProveedor_delete"),
+
+    # ---------- Cancion ----------
+    path('canciones/', views.lista_canciones, name='lista_canciones'),
+    path('canciones/crear/', views.crear_cancion, name='crear_cancion'),
+    path('canciones/editar/<int:id>/', views.editar_cancion, name='editar_cancion'),
+    path('canciones/eliminar/<int:id>/', views.eliminar_cancion, name='eliminar_cancion'),
+
+    # ---------- Vinilo ----------
+    path('vinilos/', views.lista_vinilos, name='lista_vinilos'),
+    path('vinilos/crear/', views.crear_vinilo, name='crear_vinilo'),
+    path('vinilos/editar/<int:id>/', views.editar_vinilo, name='editar_vinilo'),
+    path('vinilos/eliminar/<int:id>/', views.eliminar_vinilo, name='eliminar_vinilo'),
+
+    # ---------- ViniloCancion ----------
+    path('vinilo-cancion/', views.lista_vinilo_cancion, name='lista_vinilo_cancion'),
+    path('vinilo-cancion/crear/', views.crear_vinilo_cancion, name='crear_vinilo_cancion'),
+    path('vinilo-cancion/eliminar/<int:id>/', views.eliminar_vinilo_cancion, name='eliminar_vinilo_cancion'),
 ]
