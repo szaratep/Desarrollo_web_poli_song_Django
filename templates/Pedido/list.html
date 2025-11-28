@@ -1,0 +1,17 @@
+<h1>Lista de Pedidos</h1>
+
+<a href="{% url 'core:pedido_new' %}">Crear nuevo pedido</a>
+
+<ul>
+{% for p in pedidos %}
+    <li>
+        <a href="{% url 'core:pedido_detail' p.pk %}">
+            Pedido #{{ p.id }} - {{ p.fecha }} - ${{ p.total }}
+        </a>
+    </li>
+{% empty %}
+    <li>No hay pedidos registrados.</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'core:home' %}">Volver</a>

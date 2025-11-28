@@ -1,0 +1,10 @@
+<h1>Eliminar Pedido {{ pedido.id }}</h1>
+
+<p>¿Seguro que deseas eliminar este pedido?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+</form>
+
+<a href="{% url 'core:pedido_detail' pedido.pk %}">Cancelar</a>

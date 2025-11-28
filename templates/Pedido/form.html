@@ -1,0 +1,15 @@
+<h1>{% if mode == 'edit' %}Editar{% else %}Crear{% endif %} Pedido</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="{% if mode == 'edit' %}
+            {% url 'core:pedido_detail' pedido.pk %}
+         {% else %}
+            {% url 'core:pedido_list' %}
+         {% endif %}">
+    Volver
+</a>

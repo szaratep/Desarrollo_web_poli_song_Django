@@ -1,0 +1,12 @@
+<h1>Detalle del Pedido {{ pedido.id }}</h1>
+
+<section>
+    <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
+    <p><strong>Usuario:</strong> {{ pedido.usuario }}</p>
+    <p><strong>Total:</strong> ${{ pedido.total }}</p>
+    <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+</section>
+
+<a href="{% url 'core:pedido_update' pedido.pk %}">Editar</a> |
+<a href="{% url 'core:pedido_delete' pedido.pk %}">Eliminar</a> |
+<a href="{% url 'core:pedido_list' %}">Volver a la lista</a>

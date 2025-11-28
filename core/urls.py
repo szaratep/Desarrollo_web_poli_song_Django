@@ -76,4 +76,12 @@ urlpatterns = [
     path("vinilo/<int:pk>/edit/", views.vinilo_update, name="vinilo_update"),
     path("vinilo/<int:pk>/delete/", views.vinilo_delete, name="vinilo_delete"),
 
+        # ---------- Pedido ----------
+    path("pedido/", views.pedido_list, name="pedido_list"),
+    path("pedido/new/", views.pedido_new, name="pedido_new"),
+    path("pedido/<int:pk>/", views.pedido_detail, name="pedido_detail"),
+    path("pedido/<int:pk>/edit/", views.pedido_update, name="pedido_update"),
+    path("pedido/<int:pk>/delete/", views.pedido_delete, name="pedido_delete"),
+
+
 ]

@@ -604,3 +604,41 @@ def Valoracion_delete(request, pk):
         "Valoracion/confirm_delete.html",
         {"valoracion": obj}
     )
+def pedido_list(request):
+    pedidos = Pedido.objects.all()
+    return render(request, "pedido/list.html", {"pedidos": pedidos})
+
+def pedido_detail(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+    return render(request, "pedido/detail.html", {"pedido": pedido})
+
+@require_http_methods(["GET", "POST"])
+def pedido_new(request):
+    if request.method == "POST":
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            pedido = form.save()
+            return redirect("core:pedido_detail", pk=pedido.pk)
+    else:
+        form = PedidoForm()
+    return render(request, "pedido/form.html", {"form": form, "mode": "create"})
+
+@require_http_methods(["GET", "POST"])
+def pedido_update(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+    if request.method == "POST":
+        form = PedidoForm(request.POST, instance=pedido)
+        if form.is_valid():
+            pedido = form.save()
+            return redirect("core:pedido_detail", pk=pedido.pk)
+    else:
+        form = PedidoForm(instance=pedido)
+    return render(request, "pedido/form.html", {"form": form, "mode": "edit", "pedido": pedido})
+
+@require_http_methods(["GET", "POST"])
+def pedido_delete(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+    if request.method == "POST":
+        pedido.delete()
+        return redirect("core:pedido_list")
+    return render(request, "pedido/confirm_delete.html", {"pedido": pedido})
