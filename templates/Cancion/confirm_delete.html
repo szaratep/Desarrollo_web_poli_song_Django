@@ -1,0 +1,7 @@
+<h1>Eliminar Canción</h1>
+<p>¿Seguro que deseas eliminar la canción <strong>{{ cancion.nombre }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+</form>
+<a href="{% url 'core:cancion_detail' cancion.pk %}">Cancelar</a>

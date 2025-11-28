@@ -1,0 +1,19 @@
+<h1>{{ vinilo.nombre }} - {{ vinilo.artista }}</h1>
+
+<p><strong>Año de salida:</strong> {{ vinilo.anio_salida }}</p>
+<p><strong>Precio unitario:</strong> ${{ vinilo.precio_unitario }}</p>
+<p><strong>Inventario:</strong> {{ vinilo.inventario }}</p>
+<p><strong>Proveedor:</strong> {{ vinilo.proveedor.nombre }}</p>
+
+<h3>Canciones del vinilo</h3>
+<ul>
+    {% for c in canciones %}
+        <li>{{ c.nombre }} ({{ c.duracion }})</li>
+    {% empty %}
+        <li>Este vinilo no tiene canciones asociadas.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'core:vinilo_update' vinilo.pk %}">Editar</a> |
+<a href="{% url 'core:vinilo_delete' vinilo.pk %}">Eliminar</a> |
+<a href="{% url 'core:vinilo_list' %}">Volver</a>

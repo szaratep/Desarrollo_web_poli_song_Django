@@ -44,20 +44,18 @@ urlpatterns = [
     path("discmp3/<int:pk>/edit/", views.discomp3_update, name="discomp3_update"),
     path("discmp3/<int:pk>/delete/", views.discomp3_delete, name="discomp3_delete"),
 
-    # ---------- Cancion ----------
-    path('canciones/', views.lista_canciones, name='lista_canciones'),
-    path('canciones/crear/', views.crear_cancion, name='crear_cancion'),
-    path('canciones/editar/<int:id>/', views.editar_cancion, name='editar_cancion'),
-    path('canciones/eliminar/<int:id>/', views.eliminar_cancion, name='eliminar_cancion'),
+    # ----- Canción CRUD -----
+    path("cancion/", views.cancion_list, name="cancion_list"),
+    path("cancion/new/", views.cancion_new, name="cancion_new"),
+    path("cancion/<int:pk>/", views.cancion_detail, name="cancion_detail"),
+    path("cancion/<int:pk>/edit/", views.cancion_update, name="cancion_update"),
+    path("cancion/<int:pk>/delete/", views.cancion_delete, name="cancion_delete"),
 
-    # ---------- Vinilo ----------
-    path('vinilos/', views.lista_vinilos, name='lista_vinilos'),
-    path('vinilos/crear/', views.crear_vinilo, name='crear_vinilo'),
-    path('vinilos/editar/<int:id>/', views.editar_vinilo, name='editar_vinilo'),
-    path('vinilos/eliminar/<int:id>/', views.eliminar_vinilo, name='eliminar_vinilo'),
+    # ----- Vinilo CRUD -----
+    path("vinilo/", views.vinilo_list, name="vinilo_list"),
+    path("vinilo/new/", views.vinilo_new, name="vinilo_new"),
+    path("vinilo/<int:pk>/", views.vinilo_detail, name="vinilo_detail"),
+    path("vinilo/<int:pk>/edit/", views.vinilo_update, name="vinilo_update"),
+    path("vinilo/<int:pk>/delete/", views.vinilo_delete, name="vinilo_delete"),
 
-    # ---------- ViniloCancion ----------
-    path('vinilo-cancion/', views.lista_vinilo_cancion, name='lista_vinilo_cancion'),
-    path('vinilo-cancion/crear/', views.crear_vinilo_cancion, name='crear_vinilo_cancion'),
-    path('vinilo-cancion/eliminar/<int:id>/', views.eliminar_vinilo_cancion, name='eliminar_vinilo_cancion'),
 ]

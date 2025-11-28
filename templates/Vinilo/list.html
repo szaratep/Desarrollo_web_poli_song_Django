@@ -1,29 +1,14 @@
 <h1>Lista de Vinilos</h1>
-<a href="{% url 'crear_vinilo' %}">Crear nuevo vinilo</a>
-
-<table border="1">
-    <tr>
-        <th>Nombre</th>
-        <th>Artista</th>
-        <th>Año salida</th>
-        <th>Precio</th>
-        <th>Inventario</th>
-        <th>Proveedor</th>
-        <th>Acciones</th>
-    </tr>
-
+<a href="{% url 'core:vinilo_new' %}">Crear nuevo vinilo</a>
+<ul>
     {% for v in vinilos %}
-    <tr>
-        <td>{{ v.nombre }}</td>
-        <td>{{ v.artista }}</td>
-        <td>{{ v.anio_salida }}</td>
-        <td>{{ v.precio_unitario }}</td>
-        <td>{{ v.inventario }}</td>
-        <td>{{ v.proveedor.nombre }}</td>
-        <td>
-            <a href="{% url 'editar_vinilo' v.id %}">Editar</a>
-            <a href="{% url 'eliminar_vinilo' v.id %}">Eliminar</a>
-        </td>
-    </tr>
+        <li>
+            <a href="{% url 'core:vinilo_detail' v.pk %}">
+                {{ v.nombre }} - {{ v.artista }}
+            </a>
+        </li>
+    {% empty %}
+        <li>No hay vinilos registrados.</li>
     {% endfor %}
-</table>
+</ul>
+<a href="{% url 'core:home' %}">Volver</a>

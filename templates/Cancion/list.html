@@ -1,23 +1,14 @@
 <h1>Lista de Canciones</h1>
-<a href="{% url 'crear_cancion' %}">Crear nueva canción</a>
-
-<table border="1">
-    <tr>
-        <th>Nombre</th>
-        <th>Duración</th>
-        <th>Tamaño</th>
-        <th>Acciones</th>
-    </tr>
-
+<a href="{% url 'core:cancion_new' %}">Crear nueva canción</a>
+<ul>
     {% for c in canciones %}
-    <tr>
-        <td>{{ c.nombre }}</td>
-        <td>{{ c.duracion }}</td>
-        <td>{{ c.tamano }}</td>
-        <td>
-            <a href="{% url 'editar_cancion' c.id %}">Editar</a>
-            <a href="{% url 'eliminar_cancion' c.id %}">Eliminar</a>
-        </td>
-    </tr>
+        <li>
+            <a href="{% url 'core:cancion_detail' c.pk %}">
+                {{ c.nombre }} ({{ c.duracion }})
+            </a>
+        </li>
+    {% empty %}
+        <li>No hay canciones registradas.</li>
     {% endfor %}
-</table>
+</ul>
+<a href="{% url 'core:home' %}">Volver</a>

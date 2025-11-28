@@ -251,92 +251,106 @@ def TelefonoProveedor_delete(request, pk):
         tel.delete()
         return redirect("core:Proveedor_detail", pk=prov_id)
     return render(request, "Proveedor/Telefono/confirm_delete.html", {"telefono": tel})
+
 # ---------- Cancion ----------
-def lista_canciones(request):
+def cancion_list(request):
     canciones = Cancion.objects.all()
-    return render(request, 'cancion/lista.html', {'canciones': canciones})
+    return render(request, "cancion/list.html", {"canciones": canciones})
 
+def cancion_detail(request, pk):
+    cancion = get_object_or_404(Cancion, pk=pk)
+    return render(request, "cancion/detail.html", {"cancion": cancion})
 
-def crear_cancion(request):
-    if request.method == 'POST':
+@require_http_methods(["GET", "POST"])
+def cancion_new(request):
+    if request.method == "POST":
         form = CancionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista_canciones')
+            cancion = form.save()
+            return redirect("core:cancion_detail", pk=cancion.pk)
     else:
         form = CancionForm()
-    return render(request, 'cancion/form.html', {'form': form, 'titulo': 'Crear Canción'})
 
+    return render(request, "cancion/form.html", {"form": form,"mode": "create",})
 
-def editar_cancion(request, id):
-    cancion = get_object_or_404(Cancion, id=id)
-    if request.method == 'POST':
+@require_http_methods(["GET", "POST"])
+def cancion_update(request, pk):
+    cancion = get_object_or_404(Cancion, pk=pk)
+    if request.method == "POST":
         form = CancionForm(request.POST, instance=cancion)
         if form.is_valid():
-            form.save()
-            return redirect('lista_canciones')
+            cancion = form.save()
+            return redirect("core:cancion_detail", pk=cancion.pk)
     else:
         form = CancionForm(instance=cancion)
-    return render(request, 'cancion/form.html', {'form': form, 'titulo': 'Editar Canción'})
+    return render(request, "cancion/form.html", {"form": form,"mode": "edit","cancion": cancion})
 
-
-def eliminar_cancion(request, id):
-    cancion = get_object_or_404(Cancion, id=id)
-    cancion.delete()
-    return redirect('lista_canciones')
+@require_http_methods(["GET", "POST"])
+def cancion_delete(request, pk):
+    cancion = get_object_or_404(Cancion, pk=pk)
+    if request.method == "POST":
+        cancion.delete()
+        return redirect("core:cancion_list")
+    return render(request, "cancion/confirm_delete.html", {"cancion": cancion})
 
 # ---------- Vinilo ----------
+def vinilo_list(request):
+    qs = Vinilo.objects.all()
+    return render(request, "vinilo/list.html", {"vinilos": qs})
 
-def lista_vinilos(request):
-    vinilos = Vinilo.objects.all()
-    return render(request, 'vinilo/lista.html', {'vinilos': vinilos})
+def vinilo_detail(request, pk):
+    vinilo = get_object_or_404(Vinilo, pk=pk)
+    canciones = Cancion.objects.filter(vinilocancion__vinilo=vinilo)
 
-def crear_vinilo(request):
-    if request.method == 'POST':
+    return render(request, "vinilo/detail.html", {
+        "vinilo": vinilo,
+        "canciones": canciones
+    })
+
+@require_http_methods(["GET", "POST"])
+def vinilo_new(request):
+    if request.method == "POST":
         form = ViniloForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista_vinilos')
+            vinilo = form.save()
+            #limpiar relaciones previas (por si acaso)
+            ViniloCancion.objects.filter(vinilo=vinilo).delete()
+            # guardar nuevas relaciones
+            for c in form.cleaned_data["canciones"]:
+                ViniloCancion.objects.create(vinilo=vinilo, cancion=c)
+            return redirect("core:vinilo_detail", pk=vinilo.pk)
     else:
         form = ViniloForm()
-    return render(request, 'vinilo/form.html', {'form': form, 'titulo': 'Crear Vinilo'})
+    return render(request, "vinilo/form.html", {"form": form,"mode": "create",})
 
-def editar_vinilo(request, id):
-    vinilo = get_object_or_404(Vinilo, id=id)
-    if request.method == 'POST':
+@require_http_methods(["GET", "POST"])
+def vinilo_update(request, pk):
+    vinilo = get_object_or_404(Vinilo, pk=pk)
+    # obtener canciones asociadas actualmente
+    canciones_rel = Cancion.objects.filter(vinilocancion__vinilo=vinilo)
+    if request.method == "POST":
         form = ViniloForm(request.POST, instance=vinilo)
         if form.is_valid():
-            form.save()
-            return redirect('lista_vinilos')
+            vinilo = form.save()
+            # borrar relaciones anteriores
+            ViniloCancion.objects.filter(vinilo=vinilo).delete()
+            # crear nuevas relaciones
+            for c in form.cleaned_data["canciones"]:
+                ViniloCancion.objects.create(vinilo=vinilo, cancion=c)
+            return redirect("core:vinilo_detail", pk=vinilo.pk)
     else:
         form = ViniloForm(instance=vinilo)
-    return render(request, 'vinilo/form.html', {'form': form, 'titulo': 'Editar Vinilo'})
+        form.fields["canciones"].initial = canciones_rel
+    return render(request, "vinilo/form.html", {"form": form,"mode": "edit","vinilo": vinilo})
 
-def eliminar_vinilo(request, id):
-    vinilo = get_object_or_404(Vinilo, id=id)
-    vinilo.delete()
-    return redirect('lista_vinilos')
+@require_http_methods(["GET", "POST"])
+def vinilo_delete(request, pk):
+    vinilo = get_object_or_404(Vinilo, pk=pk)
+    if request.method == "POST":
+        vinilo.delete()
+        return redirect("core:vinilo_list")
+    return render(request, "vinilo/confirm_delete.html", {"vinilo": vinilo})
 
-# ---------- ViniloCancion ----------
-
-def lista_vinilo_cancion(request):
-    relaciones = ViniloCancion.objects.all()
-    return render(request, 'vinilo_cancion/lista.html', {'relaciones': relaciones})
-
-def crear_vinilo_cancion(request):
-    if request.method == 'POST':
-        form = ViniloCancionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_vinilo_cancion')
-    else:
-        form = ViniloCancionForm()
-    return render(request, 'vinilo_cancion/form.html', {'form': form, 'titulo': 'Agregar Canción a Vinilo'})
-
-def eliminar_vinilo_cancion(request, id):
-    relacion = get_object_or_404(ViniloCancion, id=id)
-    relacion.delete()
-    return redirect('lista_vinilo_cancion')
 
 # ----------  Discomp3 ----------
 def discomp3_list(request):

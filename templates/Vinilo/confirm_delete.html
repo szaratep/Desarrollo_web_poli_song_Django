@@ -1,0 +1,7 @@
+<h1>Eliminar Vinilo</h1>
+<p>¿Desea eliminar el vinilo <strong>{{ vinilo.nombre }} - {{ vinilo.artista }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+</form>
+<a href="{% url 'core:vinilo_detail' vinilo.pk %}">Cancelar</a>

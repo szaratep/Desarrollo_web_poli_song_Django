@@ -1,0 +1,8 @@
+<h1>{{ cancion.nombre }}</h1>
+
+<p><strong>Duración:</strong> {{ cancion.duracion }}</p>
+<p><strong>Tamaño (MB):</strong> {{ cancion.tamano }}</p>
+
+<a href="{% url 'core:cancion_update' cancion.pk %}">Editar</a> |
+<a href="{% url 'core:cancion_delete' cancion.pk %}">Eliminar</a> |
+<a href="{% url 'core:cancion_list' %}">Volver</a>

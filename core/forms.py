@@ -38,24 +38,22 @@ class DiscoMp3Form(forms.ModelForm):
         required=False,
         label="Canciones del disco"
     )
-
     class Meta:
         model = DiscoMp3
         fields = ["nombre", "duracion", "tamano", "precio", "inventario", "canciones"]
+
 class CancionForm(forms.ModelForm):
     class Meta:
         model = Cancion
         fields = ['nombre', 'duracion', 'tamano']
 
-
 class ViniloForm(forms.ModelForm):
+    canciones = forms.ModelMultipleChoiceField(
+        queryset=Cancion.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Canciones del vinilo"
+    )
     class Meta:
         model = Vinilo
-        fields = ['nombre', 'artista', 'anio_salida', 'precio_unitario', 'inventario', 'proveedor']
-
-
-class ViniloCancionForm(forms.ModelForm):
-    class Meta:
-        model = ViniloCancion
-        fields = ['vinilo', 'cancion']
-
+        fields = ["nombre","artista","anio_salida","precio_unitario","inventario","proveedor","canciones"]
