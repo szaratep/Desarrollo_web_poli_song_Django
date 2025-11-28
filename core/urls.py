@@ -20,6 +20,24 @@ urlpatterns = [
     path("Telefono/new/<int:user_pk>/", views.Telefono_new, name="Telefono_new"),
     path("Telefono/<int:pk>/edit/", views.Telefono_update, name="Telefono_update"),
     path("Telefono/<int:pk>/delete/", views.Telefono_delete, name="Telefono_delete"),
+    # ---------- recopilación ----------
+    path("Recopilacion/<int:pk>/", views.Recopilacion_detail, name="Recopilacion_detail"),
+    path("Recopilacion/new/", views.Recopilacion_New, name="Recopilacion_new"),
+    path("Recopilacion/<int:pk>/edit/", views.Recopilacion_update, name="Recopilacion_update"),
+    path("Recopilacion/<int:pk>/delete/", views.Recopilacion_delete, name="Recopilacion_delete"),
+
+    # ---------- recopilación-cancion ----------
+    path("RecopilacionCancion/<int:pk>/", views.RecopilacionCancion_detail, name="RecopilacionCancion_detail"),
+    path("RecopilacionCancion/new/", views.RecopilacionCancion_New, name="RecopilacionCancion_new"),
+    path("RecopilacionCancion/<int:pk>/edit/", views.RecopilacionCancion_update, name="RecopilacionCancion_update"),
+    path("RecopilacionCancion/<int:pk>/delete/", views.RecopilacionCancion_delete, name="RecopilacionCancion_delete"),
+
+    # ---------- valoración ----------
+    path("Valoracion/<int:pk>/", views.Valoracion_detail, name="Valoracion_detail"),
+    path("Valoracion/new/", views.Valoracion_New, name="Valoracion_new"),
+    path("Valoracion/<int:pk>/edit/", views.Valoracion_update, name="Valoracion_update"),
+    path("Valoracion/<int:pk>/delete/", views.Valoracion_delete, name="Valoracion_delete"),
+
 
     # ---------- Proveedor ----------
     path("Proveedor/new/", views.Proveedor_new, name="Proveedor_new"),

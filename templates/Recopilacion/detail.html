@@ -1,0 +1,37 @@
+<h1 style="text-align: center; margin-bottom: 20px;">Detalle de la Recopilación</h1>
+
+<section style="margin-bottom: 30px;">
+    <h2>Información de la Recopilación</h2>
+
+    <p><strong>Nombre:</strong> {{ recopilacion.nombre }}</p>
+    <p><strong>Usuario:</strong> {{ recopilacion.usuario.nombre }}</p>
+    <p><strong>Pública:</strong> {{ recopilacion.publica }}</p>
+
+    <div style="margin-top: 10px;">
+        <a href="{% url 'core:Recopilacion_update' pk=recopilacion.pk %}">Editar Recopilación</a> |
+        <a href="{% url 'core:Recopilacion_delete' pk=recopilacion.pk %}">Eliminar Recopilación</a>
+    </div>
+</section>
+
+<hr>
+
+<section style="margin-bottom: 30px;">
+    <h2>Canciones en la Recopilación</h2>
+    {% if recopilacion.recopilacioncancion_set.all %}
+        <ul>
+            {% for rc in recopilacion.recopilacioncancion_set.all %}
+                <li>
+                    {{ rc.cancion.nombre }}
+                    <a href="{% url 'core:RecopilacionCancion_update' pk=rc.pk %}">Editar</a> |
+                    <a href="{% url 'core:RecopilacionCancion_delete' pk=rc.pk %}">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay canciones registradas.</p>
+    {% endif %}
+    <a href="{% url 'core:RecopilacionCancion_new' %}">Agregar Canción</a>
+</section>
+
+<hr>
+<a href="{% url 'core:home' %}">Volver al inicio</a>

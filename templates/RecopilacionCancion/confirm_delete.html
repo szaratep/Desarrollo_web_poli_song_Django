@@ -1,0 +1,8 @@
+<h1>Eliminar Canción de la Recopilación: {{ rc.recopilacion.nombre }}</h1>
+<p>¿Seguro que deseas eliminar la canción "{{ rc.cancion.nombre }}" de esta recopilación?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sí, eliminar</button>
+</form>
+<a href="{% url 'core:RecopilacionCancion_detail' pk=rc.pk %}">Cancelar</a>

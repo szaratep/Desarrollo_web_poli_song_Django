@@ -1,0 +1,15 @@
+<h1>{% if mode == "edit" %}Editar{% else %}Agregar{% endif %} Canción a Recopilación</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+</form>
+
+{% if mode == 'edit' %}
+    {% url 'core:RecopilacionCancion_detail' pk=rc.pk as return_url %}
+{% else %}
+    {% url 'core:Recopilacion_detail' pk=recopilacion.pk as return_url %}
+{% endif %}
+
+<a href="{{ return_url }}">Volver</a>

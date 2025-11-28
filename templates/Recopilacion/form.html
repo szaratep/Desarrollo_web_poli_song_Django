@@ -1,0 +1,11 @@
+<h1>{% if mode == "edit" %}Editar{% else %}Crear{% endif %} Recopilación</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+</form>
+
+<a href="{% if mode == 'edit' %}{% url 'core:Recopilacion_detail' pk=recopilacion.pk %}{% else %}{% url 'core:home' %}{% endif %}">
+    Volver
+</a>

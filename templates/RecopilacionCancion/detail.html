@@ -1,0 +1,15 @@
+<h1 style="text-align: center; margin-bottom: 20px;">Detalle de Canción en la Recopilación</h1>
+
+<section style="margin-bottom: 30px;">
+    <h2>Información</h2>
+
+    <p><strong>Recopilación:</strong> {{ rc.recopilacion.nombre }}</p>
+    <p><strong>Canción:</strong> {{ rc.cancion.nombre }}</p>
+
+    <div style="margin-top: 10px;">
+        <a href="{% url 'core:RecopilacionCancion_update' pk=rc.pk %}">Editar</a> |
+        <a href="{% url 'core:RecopilacionCancion_delete' pk=rc.pk %}">Eliminar</a>
+    </div>
+</section>
+
+<hr>

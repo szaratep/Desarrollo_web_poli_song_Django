@@ -1,0 +1,17 @@
+<h1 style="text-align: center; margin-bottom: 20px;">Detalle de la Valoración</h1>
+
+<section style="margin-bottom: 30px;">
+    <h2>Información de la Valoración</h2>
+
+    <p><strong>Pedido:</strong> {{ valoracion.pedido.id }}</p>
+    <p><strong>Usuario:</strong> {{ valoracion.usuario.nombre }}</p>
+    <p><strong>Descripción:</strong> {{ valoracion.descripcion }}</p>
+
+    <div style="margin-top: 10px;">
+        <a href="{% url 'core:Valoracion_update' pk=valoracion.pk %}">Editar Valoración</a> |
+        <a href="{% url 'core:Valoracion_delete' pk=valoracion.pk %}">Eliminar Valoración</a>
+    </div>
+</section>
+
+<hr>
+<a href="{% url 'core:home' %}">Volver al inicio</a>
