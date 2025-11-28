@@ -252,9 +252,59 @@ def TelefonoProveedor_delete(request, pk):
         return redirect("core:Proveedor_detail", pk=prov_id)
     return render(request, "Proveedor/Telefono/confirm_delete.html", {"telefono": tel})
 
+# ---------- TelefonoProveedor ----------
+def discomp3_list(request):
+    qs = DiscoMp3.objects.all()
+    return render(request, "discmp3/list.html", {"discos": qs})
 
+def discomp3_detail(request, pk):
+    disco = get_object_or_404(DiscoMp3, pk=pk)
+    canciones = Cancion.objects.filter(discomp3cancion__disco_mp3=disco)
+    return render(request, "discmp3/detail.html", {"disco": disco, "canciones": canciones})
 
+@require_http_methods(["GET", "POST"])
+def discomp3_new(request):
+    if request.method == "POST":
+        form = DiscoMp3Form(request.POST)
+        if form.is_valid():
+            disco = form.save()
+            # limpiar relaciones previas (por si acaso)
+            DiscoMp3Cancion.objects.filter(disco_mp3=disco).delete()
+            # crear nuevas relaciones
+            for c in form.cleaned_data["canciones"]:
+                DiscoMp3Cancion.objects.create(disco_mp3=disco, cancion=c)
+            return redirect("core:discomp3_detail", pk=disco.pk)
+    else:
+        form = DiscoMp3Form()
+    return render(request, "discmp3/form.html", {"form": form,"mode": "create",})
 
+@require_http_methods(["GET", "POST"])
+def discomp3_update(request, pk):
+    disco = get_object_or_404(DiscoMp3, pk=pk)
+    # Preseleccionar canciones actuales
+    canciones_rel = Cancion.objects.filter(discomp3cancion__disco_mp3=disco)
+    if request.method == "POST":
+        form = DiscoMp3Form(request.POST, instance=disco)
+        if form.is_valid():
+            disco = form.save()
+            # limpiar relaciones previas
+            DiscoMp3Cancion.objects.filter(disco_mp3=disco).delete()
+            # crear nuevas relaciones
+            for c in form.cleaned_data["canciones"]:
+                DiscoMp3Cancion.objects.create(disco_mp3=disco, cancion=c)
+            return redirect("core:discomp3_detail", pk=disco.pk)
+    else:
+        form = DiscoMp3Form(instance=disco)
+        form.fields["canciones"].initial = canciones_rel
+    return render(request, "discmp3/form.html", {"form": form, "mode": "edit", "disco": disco,})
+
+@require_http_methods(["GET", "POST"])
+def discomp3_delete(request, pk):
+    disco = get_object_or_404(DiscoMp3, pk=pk)
+    if request.method == "POST":
+        disco.delete()
+        return redirect("core:discomp3_list")
+    return render(request, "discmp3/confirm_delete.html", {"disco": disco})
 
 
 

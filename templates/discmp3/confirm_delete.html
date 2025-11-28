@@ -1,0 +1,10 @@
+<h1>Eliminar Disco: {{ disco.nombre }}</h1>
+
+<p>¿Estás seguro de que deseas eliminar este disco MP3?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+</form>
+
+<a href="{% url 'core:discomp3_detail' disco.pk %}">Cancelar</a>

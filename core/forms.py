@@ -30,3 +30,15 @@ class TelefonoProveedorForm(forms.ModelForm):
     class Meta:
         model = TelefonoProveedor
         fields = ["telefono"]
+
+class DiscoMp3Form(forms.ModelForm):
+    canciones = forms.ModelMultipleChoiceField(
+        queryset=Cancion.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Canciones del disco"
+    )
+
+    class Meta:
+        model = DiscoMp3
+        fields = ["nombre", "duracion", "tamano", "precio", "inventario", "canciones"]

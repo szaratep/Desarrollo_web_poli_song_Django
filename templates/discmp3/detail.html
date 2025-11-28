@@ -1,0 +1,26 @@
+<h1>Detalle del Disco: {{ disco.nombre }}</h1>
+
+<p><strong>Duración:</strong> {{ disco.duracion }}</p>
+<p><strong>Tamaño:</strong> {{ disco.tamano }} MB</p>
+<p><strong>Precio:</strong> ${{ disco.precio }}</p>
+<p><strong>Inventario:</strong> {{ disco.inventario }}</p>
+
+<hr>
+
+<h2>Canciones del disco</h2>
+
+{% if canciones %}
+    <ul>
+        {% for c in canciones %}
+            <li>{{ c.nombre }} — {{ c.duracion }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Este disco no tiene canciones asignadas.</p>
+{% endif %}
+
+<hr>
+
+<a href="{% url 'core:discomp3_update' disco.pk %}">Editar</a> |
+<a href="{% url 'core:discomp3_delete' disco.pk %}">Eliminar</a> |
+<a href="{% url 'core:discomp3_list' %}">Volver</a>

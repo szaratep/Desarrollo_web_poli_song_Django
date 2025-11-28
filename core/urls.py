@@ -36,4 +36,12 @@ urlpatterns = [
     path("Proveedor/Telefono/new/<int:proveedor_pk>/", views.TelefonoProveedor_new, name="TelefonoProveedor_new"),
     path("Proveedor/Telefono/<int:pk>/edit/", views.TelefonoProveedor_update, name="TelefonoProveedor_update"),
     path("Proveedor/Telefono/<int:pk>/delete/", views.TelefonoProveedor_delete, name="TelefonoProveedor_delete"),
+
+    # ----- DiscoMp3 CRUD -----
+    path("discmp3/", views.discomp3_list, name="discomp3_list"),
+    path("discmp3/new/", views.discomp3_new, name="discomp3_new"),
+    path("discmp3/<int:pk>/", views.discomp3_detail, name="discomp3_detail"),
+    path("discmp3/<int:pk>/edit/", views.discomp3_update, name="discomp3_update"),
+    path("discmp3/<int:pk>/delete/", views.discomp3_delete, name="discomp3_delete"),
+
 ]
