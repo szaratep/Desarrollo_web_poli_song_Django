@@ -5,9 +5,50 @@ from .models import *
 from .forms import *
 # Create your views here.
 
-def home(reuqest):
-    return render(reuqest, "home.html", {"title": "polisong"})
+def home(request):
+    mensaje = None
 
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        try:
+            usuario = Usuario.objects.get(nombre=username, contrasena=password)
+
+            # Guardar usuario en sesión
+            request.session["usuario_id"] = usuario.id
+
+            # Redirigir al catálogo
+            return redirect("core:catalogo")
+
+        except Usuario.DoesNotExist:
+            mensaje = "Usuario o contraseña incorrectos."
+
+    return render(request, "home.html", {
+        "title": "Polisong",
+        "mensaje": mensaje,
+    })
+def catalogo(request):
+    usuario_id = request.session.get("usuario_id")
+    if not usuario_id:
+        # Si no hay sesión, vuelve al login
+        return redirect("core:home")
+
+    usuario = Usuario.objects.get(pk=usuario_id)
+
+    canciones = Cancion.objects.all()
+    vinilos = Vinilo.objects.all()
+    discmp3 = DiscoMp3.objects.all()
+    recopilaciones = Recopilacion.objects.filter(usuario=usuario)
+
+    return render(request, "catalogo.html", {
+        "usuario": usuario,
+        "canciones": canciones,
+        "vinilos": vinilos,
+        "discmp3": discmp3,
+        "recopilaciones": recopilaciones,
+        "title": "Catálogo"
+    })
 # ---------- Usuario ----------
 
 def User_detail(request, pk):
@@ -134,9 +175,7 @@ def Telefono_delete(request, pk):
     return render(request, "Telefono/confirm_delete.html", {
         "telefono": tel
     })
-# ---------- Recopilación ----------
 
-    return render(request, "Telefono/confirm_delete.html", {"telefono": tel})
 
 # ---------- Proveedor ----------
 def Proveedor_detail(request, pk):

@@ -1,0 +1,77 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo</title>
+</head>
+<body>
+    <h1>Catálogo de Música</h1>
+
+    <p>Hola {{ usuario.nombre }}!</p>
+
+    <hr>
+
+    <h2>Canciones</h2>
+    <ul>
+        {% for c in canciones %}
+            <li>
+                <a href="{% url 'core:cancion_detail' c.id %}">
+                    {{ c.nombre }} - {{ c.artista }}
+                </a>
+            </li>
+        {% empty %}
+            <p>No hay canciones registradas.</p>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Vinilos</h2>
+    <ul>
+        {% for v in vinilos %}
+            <li>
+                <a href="{% url 'core:vinilo_detail' v.id %}">
+                    {{ v.nombre_vinilo }} - {{ v.artista }}
+                </a>
+            </li>
+        {% empty %}
+            <p>No hay vinilos registrados.</p>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Discos MP3</h2>
+    <ul>
+        {% for d in discmp3 %}
+            <li>
+                <a href="{% url 'core:discomp3_detail' d.id %}">
+                    {{ d.nombre }}
+                </a>
+            </li>
+        {% empty %}
+            <p>No hay discos MP3 registrados.</p>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+   <h2>Recopilaciones</h2>
+
+<p>
+    <a href="{% url 'core:Recopilacion_new' %}"> Crear nueva recopilación</a>
+</p>
+
+<ul>
+    {% for r in recopilaciones %}
+        <li>
+            <a href="{% url 'core:Recopilacion_detail' r.id %}">
+                {{ r.nombre }}
+            </a>
+        </li>
+    {% empty %}
+        <p>No hay recopilaciones.</p>
+    {% endfor %}
+</ul>
+<a href="{% url 'core:home' %}">cerrar sesion</a>
+
+</body>
