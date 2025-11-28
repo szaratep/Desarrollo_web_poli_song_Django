@@ -459,24 +459,27 @@ def Recopilacion_detail(request, pk):
 
 @require_http_methods(["GET", "POST"])
 def Recopilacion_New(request):
-    usuario = Usuario.objects.first()  
-    if not usuario:
-        return HttpResponse("No hay usuarios disponibles para asignar.", status=400)
+    # Obtenemos el usuario logueado desde la sesión
+    usuario_id = request.session.get("usuario_id")
+    if not usuario_id:
+        return redirect("core:home")  # Si no hay sesión, volvemos al login
+
+    usuario = get_object_or_404(Usuario, pk=usuario_id)
 
     if request.method == "POST":
         form = RecopilacionForm(request.POST)
         if form.is_valid():
             recop = form.save(commit=False)
-            recop.usuario = usuario
+            recop.usuario = usuario  # Asignamos el usuario logueado
             recop.save()
             return redirect("core:Recopilacion_detail", pk=recop.pk)
     else:
-        form = RecopilacionForm(initial={"usuario": usuario})
+        form = RecopilacionForm()
 
     return render(
         request,
         "Recopilacion/form.html",
-        {"form": form, "mode": "create", "usuario": usuario}
+        {"form": form, "mode": "create"}
     )
 @require_http_methods(["GET", "POST"])
 def Recopilacion_update(request, pk):
@@ -518,31 +521,24 @@ def RecopilacionCancion_detail(request, pk):
     return render(request, "RecopilacionCancion/detail.html", {"rc": obj})
 
 @require_http_methods(["GET", "POST"])
-def RecopilacionCancion_New(request):
-    usuario = Usuario.objects.first()  
-    if not usuario:
-        return HttpResponse("No hay usuarios disponibles para asignar.", status=400)
-    try:
-        recopilacion = Recopilacion.objects.filter(usuario=usuario).first()
-    except Recopilacion.DoesNotExist:
-        recopilacion = None
-
+def RecopilacionCancion_New(request, recopilacion_pk):
+    recopilacion = get_object_or_404(Recopilacion, pk=recopilacion_pk)
+    
     if request.method == "POST":
         form = RecopilacionCancionForm(request.POST)
         if form.is_valid():
             rc = form.save(commit=False)
-            # asignar la recopilación automáticamente si no viene del form
             rc.recopilacion = recopilacion
             rc.save()
-            return redirect("core:RecopilacionCancion_detail", pk=rc.pk)
+            return redirect("core:Recopilacion_detail", pk=recopilacion.pk)
     else:
-        form = RecopilacionCancionForm(initial={"recopilacion": recopilacion})
-
-    return render(
-        request,
-        "RecopilacionCancion/form.html",
-        {"form": form, "mode": "create", "recopilacion": recopilacion}
-    )
+        form = RecopilacionCancionForm()
+    
+    return render(request, "RecopilacionCancion/form.html", {
+        "form": form,
+        "recopilacion": recopilacion,
+        "mode": "create"
+    })
 
 @require_http_methods(["GET", "POST"])
 def RecopilacionCancion_update(request, pk):

@@ -6,6 +6,6 @@
   <button type="submit">Guardar</button>
 </form>
 
-<a href="{% if mode == 'edit' %}{% url 'core:Recopilacion_detail' pk=recopilacion.pk %}{% else %}{% url 'core:home' %}{% endif %}">
+<a href="{% if mode == 'edit' %}{% url 'core:Recopilacion_detail' pk=recopilacion.pk %}{% else %}{% url 'core:catalogo' %}{% endif %}">
     Volver
 </a>
