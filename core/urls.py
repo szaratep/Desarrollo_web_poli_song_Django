@@ -28,7 +28,7 @@ urlpatterns = [
 
     # ---------- recopilación-cancion ----------
     path("RecopilacionCancion/<int:pk>/", views.RecopilacionCancion_detail, name="RecopilacionCancion_detail"),
-    path("RecopilacionCancion/new/", views.RecopilacionCancion_New, name="RecopilacionCancion_new"),
+    path("RecopilacionCancion/new/<int:recopilacion_pk>/", views.RecopilacionCancion_New, name="RecopilacionCancion_new"),
     path("RecopilacionCancion/<int:pk>/edit/", views.RecopilacionCancion_update, name="RecopilacionCancion_update"),
     path("RecopilacionCancion/<int:pk>/delete/", views.RecopilacionCancion_delete, name="RecopilacionCancion_delete"),
 

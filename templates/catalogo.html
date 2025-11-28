@@ -10,7 +10,7 @@
 
     <hr>
 
-     <h2><a href="{% url 'core:cancion_list' %}">Canciones</a></h2>
+    <h2><a href="{% url 'core:cancion_list' %}">Canciones</a></h2>
     <ul>
         {% for c in canciones %}
             <li>
@@ -55,23 +55,23 @@
 
     <hr>
 
-   <h2>Recopilaciones</h2>
+    <h2>Recopilaciones</h2>
 
-<p>
-    <a href="{% url 'core:Recopilacion_new' %}"> Crear nueva recopilación</a>
-</p>
+    <p>
+        <a href="{% url 'core:Recopilacion_new' %}">Crear nueva recopilación</a>
+    </p>
 
-<ul>
-    {% for r in recopilaciones %}
-        <li>
-            <a href="{% url 'core:Recopilacion_detail' r.id %}">
-                {{ r.nombre }}
-            </a>
-        </li>
-    {% empty %}
-        <p>No hay recopilaciones.</p>
-    {% endfor %}
-</ul>
-<a href="{% url 'core:home' %}">cerrar sesion</a>
+    <ul>
+        {% for r in recopilaciones %}
+            <li>
+                <a href="{% url 'core:Recopilacion_detail' r.id %}">{{ r.nombre }}</a>
+            </li>
+        {% empty %}
+            <p>No hay recopilaciones.</p>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'core:home' %}">Cerrar sesión</a>
 
 </body>
+</html>
