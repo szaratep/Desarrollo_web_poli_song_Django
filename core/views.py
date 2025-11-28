@@ -28,6 +28,25 @@ def home(request):
         "title": "Polisong",
         "mensaje": mensaje,
     })
+def login_proveedor(request):
+    mensaje = None
+
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        contrasena = request.POST.get("contrasena")
+
+        try:
+            proveedor = Proveedor.objects.get(nombre=nombre, contrasena=contrasena)
+            # Guardar proveedor en sesión
+            request.session["proveedor_id"] = proveedor.id
+            # Redirigir directamente a crear vinilo
+            return redirect("core:vinilo_new")
+        except Proveedor.DoesNotExist:
+            mensaje = "Nombre o contraseña incorrectos."
+
+    return render(request, "proveedor/login.html", {
+        "mensaje": mensaje
+    })
 def catalogo(request):
     usuario_id = request.session.get("usuario_id")
     if not usuario_id:
