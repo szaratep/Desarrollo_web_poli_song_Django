@@ -15,3 +15,18 @@ class TelefonoForm(forms.ModelForm):
     class Meta:
         model = Telefono
         fields = ["telefono"]
+
+class ValoracionForm(forms.ModelForm):
+    class Meta:
+        model = Valoracion
+        fields = ["pedido", "usuario", "descripcion"]
+
+class RecopilacionForm(forms.ModelForm):
+    class Meta:
+        model = Recopilacion
+        fields = ["nombre", "usuario", "publica"]
+
+class RecopilacionCancionForm(forms.ModelForm):
+    class Meta:
+        model = RecopilacionCancion
+        fields = ["recopilacion", "cancion"]

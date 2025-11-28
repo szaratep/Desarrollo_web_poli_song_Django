@@ -1,0 +1,15 @@
+<h1>{% if mode == "edit" %}Editar{% else %}Crear{% endif %} Valoración</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+</form>
+
+{% if mode == 'edit' %}
+    {% url 'core:Valoracion_detail' pk=valoracion.pk as return_url %}
+{% else %}
+    {% url 'core:home' as return_url %}
+{% endif %}
+
+<a href="{{ return_url }}">Volver</a>
