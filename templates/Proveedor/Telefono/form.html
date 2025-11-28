@@ -1,0 +1,10 @@
+<h1>{% if mode == "edit" %}Editar Teléfono{% else %}Agregar Teléfono{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Guardar</button>
+</form>
+
+<a href="{% if mode == 'edit' %}{% url 'core:Proveedor_detail' pk=telefono.proveedor.pk %}{% else %}{% url 'core:Proveedor_detail' pk=proveedor.pk %}{% endif %}">
+    Volver
+</a>

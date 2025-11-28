@@ -1,0 +1,18 @@
+<h1>Lista de Discos MP3</h1>
+
+<a href="{% url 'core:discomp3_new' %}">Crear nuevo Disco MP3</a>
+<hr>
+
+{% if discos %}
+    <ul>
+        {% for d in discos %}
+            <li>
+                <a href="{% url 'core:discomp3_detail' d.pk %}">
+                    {{ d.nombre }} — ${{ d.precio }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay discos registrados.</p>
+{% endif %}

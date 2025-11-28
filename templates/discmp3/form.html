@@ -1,0 +1,22 @@
+<h1>
+    {% if mode == "edit" %}
+        Editar Disco MP3
+    {% else %}
+        Crear Disco MP3
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">
+        {% if mode == "edit" %}
+            Guardar Cambios
+        {% else %}
+            Crear Disco
+        {% endif %}
+    </button>
+</form>
+
+<a href="{% url 'core:discomp3_list' %}">Volver</a>
